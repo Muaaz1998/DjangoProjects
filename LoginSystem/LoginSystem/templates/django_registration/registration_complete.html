@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration complete</title>
+  <style>
+    body {
+      background-color: #f0f0f0;
+      font-family: sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      border-bottom: 1px solid black;
+    }
+
+    p {
+      margin-top: 10px;
+    }
+
+    .decoration {
+      border: 1px solid black;
+      padding: 10px;
+      background-color: #eee;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Registration complete!</h1>
+  <p>
+    Your registration has been successfully completed. You will receive an email
+    with further instructions.
+  </p>
+  <div class="decoration">
+    <p>
+      <strong>Thank you for registering!</strong>
+    </p>
+  </div>
+  <br>
+  <br>
+  <a href="{% url 'login' %}">clear</a>
+</body>
+</html>
