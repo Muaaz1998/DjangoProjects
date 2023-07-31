@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <title>Posts</title>
+    <h1>POSTS</h1>
+    <body>
+        <ul>
+            {% for post in all_post_list %}
+            <li>{ { post.text }}</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
