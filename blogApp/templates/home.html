@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<ul>
+    {% for post in all_blog_posts %}
+    <li>
+        <h2>
+            <b><a href = "{% url 'post_detail' post.pk %}">{{post.title}}</a></b>
+        </h2> 
+        {{post.body}} 
+        {{"--"}} 
+        <i>{{post.author.get_username}}</i>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}
