@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Django Blog</title>
+        <meta name = "Muaaz Chowdhury" content="HTML, CSS, Django">
+    </head>
+    <body>
+        <header>
+            <h1><a href = "{% url 'home' %}">Django blog home</a></h1>
+        </header>
+        <div>
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </body>
+</html>
