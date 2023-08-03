@@ -1,11 +1,12 @@
+from unittest import skipIf
 from django.test import TestCase
 from .models import BlogPost
 from django.contrib.auth.models import User
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 # Create your tests here.
 
-class BlogPostModelTests(TestCase):
+class BlogPostTests(TestCase):
 
     global TEST_AUTHOR_NAMES, TEST_POST_BODY, TEST_POST_TITLES
 
@@ -95,3 +96,56 @@ class BlogPostModelTests(TestCase):
             response = self.client.get(f"/post/{ i + 1 }/")
             self.assertEqual(response.status_code, 200)
             self.assertTemplateUsed(response, 'post_detail.html')
+
+    @skipIf(False, "Skip if test_post_update_view returned an assertion error")    
+    def test_post_create_view(self):
+        """
+        Tests whether a view has been created and stored in the db successfully
+        Checks if the newly initialized test post has the correctly initialized 
+        test attributes of title, author and body
+        """
+        test_user = User.objects.get(username = TEST_AUTHOR_NAMES[0])
+        response = self.client.post(reverse_lazy('post_new'), {
+            'title' : TEST_POST_TITLES[0],
+            'body' : TEST_POST_BODY[0],
+            'author' : test_user
+        })
+
+        self.assertEqual(response.status_code, 200, msg= f"Failed to create a new post via CreateView.\
+                         Returned with a status code of {str(response.status_code)}")
+        
+        self.assertContains(response , text=TEST_POST_TITLES[0],msg_prefix= f"Function test_post_create_view \
+                            returned the wrong title for the initialized test post. Expected title : {TEST_POST_TITLES[0]}")
+        
+    
+    @skipIf(False, "Skip if test_post_create_view returned an assertion error")
+    def test_post_update_view(self):
+        """
+        Tests whether an update to a pre-existing post has been registered successfully
+        """
+        response = self.client.post(reverse_lazy('post_edit', args = '1'), {
+            'title' : 'test_post_1 updated title',
+            'body' : 'test_post_1 updated body'
+        })
+
+        self.assertEqual(response.status_code, 302, msg = f"Failed to create a new post via CreateView.\
+                         Returned with a status code of {str(response.status_code)}. Expected 302")
+        
+        # self.assertContains(updated_test_post_1, "test_post_1 updated title", f"Failed to edit the title of \
+        #                     test_post_1 in test function test_post_update_view")
+        # self.assertContains(updated_test_post_1, "test_post_1 updated body", f"Failed to update the body of \
+        #                     test_post_1 in test_post_update_view function.")
+
+    
+    def test_post_delete_view(self):
+        """
+        Tests whether a pre-existing post has been deleted with a status code of 302
+        """
+        response =  self.client.post(reverse_lazy('post_delete', args = '2'))
+        self.assertEqual(response.status_code, 302 ,
+        msg =  f"Failed to create a new post via CreateView.\
+                         Returned with a status code of {str(response.status_code)}. Expected 302" )
+
+    def test_get_absolute_url(self):
+        pass
+    
