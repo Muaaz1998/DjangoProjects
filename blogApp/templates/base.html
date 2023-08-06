@@ -1,18 +1,33 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
     <head>
         <title>My Django Blog</title>
         <meta name = "Muaaz Chowdhury" content="HTML, CSS, Django">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400"
+        rel="stylesheet">
+        <link href="{% static 'css/home.css' %}" rel = "stylesheet">
     </head>
     <body>
         <header>
-                <div class="nav-left">
-                    <h1><a href = "{% url 'post_new' %}">Creat a new blog post</a></h1>
-                </div>
-                <div class="nav-right">
-                    <h1><a href = "{% url 'home' %}">Django blog home</a></h1>
-                </div>
-            </header>
+            <div class="nav-left">
+                <h1><a href = "{% url 'home' %}" style="text-decoration: none;">Django blog home</a></h1>
+            </div>
+            <div class="nav-right">
+                <a href = "{% url 'post_new' %}">+New blog post</a>
+            </div>
+        </header>
+        {% if user.is_authenticated %}
+        <p>Hi! {{user.username}}</p>
+        <a href = "{% url 'logout' %}">Logout</a>
+        {% else %} 
+        <p>You are not logged in please 
+            <a href = "{% url 'login' %}">Login</a>
+            <br>
+            <br>
+            If you don't have an account please <a href = "{% url 'signup' %}">Sign up</a>
+        </p>
+        {% endif %}
         <div>
             {% block content %}
             {% endblock content %}
