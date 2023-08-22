@@ -5,5 +5,3 @@ from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
     age = models.PositiveBigIntegerField(null = True, blank = False)
-    
-
